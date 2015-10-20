@@ -1,9 +1,6 @@
 #!/bin/bash
 
 # Start supervisord
-/etc/init.d/supervisord start
+/etc/init.d/supervisord start 2>/dev/null
 # Start nginx
 service nginx start
-
-# Start sshd service
-/usr/sbin/sshd -D
