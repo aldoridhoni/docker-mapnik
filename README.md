@@ -15,9 +15,9 @@ TileStache is a Python-based server application that can serve up map tiles base
 
 Running this will build a docker image with mapnik 3.0.7 and TileStache.
 
-    git clone https://github.com/srounet/docker-mapnik
+    git clone https://github.com/aldoridhoni/docker-mapnik
     cd docker-mapnik
-    docker build -t mapnik .
+    docker build -t mapnik-tilestache .
 
 
 ## Running docker-mapnik

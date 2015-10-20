@@ -1,6 +1,6 @@
 # Mapnik for Docker
 
-FROM ubuntu:wily
+FROM ubuntu:latest
 MAINTAINER Fabien Reboia<srounet@gmail.com>
 
 ENV LANG C.UTF-8
