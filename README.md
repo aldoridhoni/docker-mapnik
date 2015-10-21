@@ -24,7 +24,7 @@ Running this will build a docker image with mapnik 3.0.7 and TileStache.
 
 This image expose two ports 80 for Nginx/TileStache and 9001 for supervisord
 
-    sudo docker run -it -p 9001:9001 -p 8000:80 -v (readlink --canonicalize .):/etc/tilestache/resources --name mapnik-ts mapnik-tilestache
+    sudo docker run -d -p 9001:9001 -p 8000:80 -v (readlink --canonicalize .):/etc/tilestache/resources --name mapnik-ts mapnik-tilestache
 
 
 ## Supervisord remote access
@@ -36,3 +36,6 @@ Default user and password are: ma/ma1337
 Use ressources folder to synchronize your mapnik styles.
 Modify tilestache.cfg according to your needs, it should be synchronized with your Docker.
 Don't forget to restart tilestache from uwsgi / supervisord.
+
+### Issue
+There is currently no newer `HarfBuzz >= 0.9.34` for ubuntu:14.04

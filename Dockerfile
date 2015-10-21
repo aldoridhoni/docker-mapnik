@@ -39,7 +39,7 @@ RUN apt-get -qq install -y --no-install-recommends \
 	libharfbuzz-dev
 
 # Mapnik 3.0.7
-RUN curl -s https://mapnik.s3.amazonaws.com/dist/v3.0.7/mapnik-v3.0.7.tar.bz2 | tar -xj -C /tmp/ && cd /tmp/mapnik-v3.0.7 && python scons/scons.py configure JOBS=4 && make && make install JOBS=4 && cd / && rm -rf /tmp/mapnik-v3.0.7
+RUN curl -s https://mapnik.s3.amazonaws.com/dist/v3.0.7/mapnik-v3.0.7.tar.bz2 | tar -xj -C /tmp/ && cd /tmp/mapnik-v3.0.7 && python scons/scons.py configure JOBS=4 && make && make install JOBS=4 &&  cd / && rm -rf /tmp/mapnik-v3.0.7
 
 # TileStache and dependencies
 RUN ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
@@ -60,8 +60,7 @@ RUN echo_supervisord_conf > /etc/supervisord.conf && printf "[include]\\nfiles =
 RUN mkdir -p /etc/supervisord
 COPY etc/supervisor_uwsgi.ini /etc/supervisord/uwsgi.ini
 COPY etc/supervisor_inet.conf /etc/supervisord/inet.conf
-COPY etc/init_supervisord /etc/init.d/supervisord
-RUN chmod +x /etc/init.d/supervisord
+COPY etc/supervisor_nginx.ini /etc/supervisord/nginx.conf
 
 # Nginx
 RUN add-apt-repository -y ppa:nginx/stable \
@@ -72,16 +71,10 @@ RUN add-apt-repository -y ppa:nginx/stable \
 COPY etc/nginx_site.conf /etc/nginx/sites-available/site.conf
 RUN ln -s /etc/nginx/sites-available/site.conf /etc/nginx/sites-enabled/
 RUN rm /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-
-# Start services
-RUN /etc/init.d/supervisord start
-RUN service nginx start
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 EXPOSE 80 9001
 
 ENV HOST_IP `ifconfig | grep inet | grep Mask:255.255.255.0 | cut -d ' ' -f 12 | cut -d ':' -f 2`
 
-ADD start.sh /
-RUN chmod +x /start.sh
-
-CMD ["/start.sh"]
+CMD ["supervisord", "-n"]
