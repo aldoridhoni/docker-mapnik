@@ -1,6 +1,6 @@
 # Mapnik for Docker
 
-FROM ubuntu:latest
+FROM ubuntu:14.04
 MAINTAINER Aldo Ridhoni<aldoridhoni@gmail.com>
 # Mapnik for Docker
 
@@ -30,7 +30,7 @@ RUN apt-get -qq install -y --no-install-recommends \
 # Mapnik dependencies
 RUN apt-get -qq install -y --no-install-recommends \
     libicu-dev \
-    libtiff4-dev \
+    libtiff5-dev \
     libfreetype6-dev \
     libpng12-dev \
     libxml2-dev \
