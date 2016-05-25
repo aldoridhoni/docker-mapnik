@@ -64,7 +64,7 @@ RUN cd /tmp && curl -L https://github.com/mapnik/python-mapnik/archive/master.zi
 
 # TileStache and dependencies
 RUN ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib
-RUN pip install -U Pillow modestmaps simplejson werkzeug mapbox-vector-tile shapely
+RUN pip install -U Pillow modestmaps simplejson werkzeug mapbox-vector-tile shapely numpy
 RUN mkdir -p /etc/tilestache
 COPY etc/run_tilestache.py /etc/tilestache/
 RUN cd /tmp && curl -L https://github.com/aldoridhoni/TileStache/archive/integration-1.zip -o tilestache.zip \
