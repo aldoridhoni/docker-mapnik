@@ -1,11 +1,9 @@
-# Mapnik for Docker
-
-FROM ubuntu:14.04
 MAINTAINER Aldo Ridhoni<aldoridhoni@gmail.com>
 # Mapnik for Docker
 
 FROM ubuntu:latest
 ENV LANG C.UTF-8
+ENV MAPNIK_VERSION 3.0.10
 ENV LD_LIBRARY_PATH /lib:/usr/lib:/usr/local/lib
 RUN update-locale LANG=C.UTF-8
 
@@ -43,8 +41,8 @@ RUN apt-get -qq install -y --no-install-recommends \
     libharfbuzz-dev
 
 # Mapnik 3.0.10
-RUN curl -s https://mapnik.s3.amazonaws.com/dist/v3.0.10/mapnik-v3.0.10.tar.bz2 | tar -xj -C /tmp/ \
-    && cd /tmp/mapnik-v3.0.10 \
+RUN curl -s https://mapnik.s3.amazonaws.com/dist/v${MAPNIK_VERSION}/mapnik-v${MAPNIK_VERSION}.tar.bz2 | tar -xj -C /tmp/ \
+    && cd /tmp/mapnik-v${MAPNIK_VERSION} \
     && python scons/scons.py configure JOBS=4 \
     && make && make install JOBS=4 \
     && cd / && rm -rf /tmp/mapnik-v3.0.10
@@ -103,4 +101,3 @@ EXPOSE 80 9001
 ENV HOST_IP `ifconfig | grep inet | grep Mask:255.255.255.0 | cut -d ' ' -f 12 | cut -d ':' -f 2`
 
 CMD ["supervisord", "-n"]
-
